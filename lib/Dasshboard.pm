@@ -14,13 +14,17 @@ Constructs a new DaSSHboard and returns a reference to it.
 
 sub new {
     my $class = shift;
-    my ( %hosts ) = @_;
+    my ( $hosts ) = @_;
 
-    my $self = {
-        hosts => %hosts,
-    };
+    die 'hosts should be a HashRef' unless defined reftype($hosts) 
+                                && reftype($hosts) eq 'HASH'
+                                && not blessed $hosts;
 
-    bless $self, $class;
+    my $self = bless {
+        hosts => $hosts,
+    }, $class;
+
+    return $self;
 }
 
 =method hosts
@@ -32,15 +36,14 @@ sub hosts {
     my $self = shift;
 
     if (@_) {
-        my %hosts = shift;
-        die 'hosts should be a HashRef' unless defined reftype(\%hosts) 
-                                    && reftype(\%hosts) eq 'HASH'
-                                    && not blessed \%hosts;
-        $self->{hosts} = %hosts;
+        my $hosts = shift;
+        die 'hosts should be a HashRef' unless defined reftype($hosts) 
+                                    && reftype($hosts) eq 'HASH'
+                                    && not blessed $hosts;
+        $self->{hosts} = $hosts;
     }
 
-    return %{$self->{hosts}};
+    return $self->{"hosts"};
 }
-
 
 1;

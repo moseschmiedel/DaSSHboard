@@ -24,7 +24,7 @@ subtest 'Hosts attribute' => sub {
 };
 
 subtest 'Generate info panel' => sub {
-    ok my $dasshboard = Dasshboard->new({}), 'construct new Dasshboard object';
+    ok my $dasshboard = Dasshboard->new({hi => 'hallo'}), 'construct new Dasshboard object';
     dies_ok { $dasshboard->generate_panel } 'die if no hosts are defined';
     ok $dasshboard->hosts({'host1' => undef, 'host2' => undef}), 'set hosts attr';
     dies_ok { $dasshboard->generate_panel } 'die if no actions are defined';
